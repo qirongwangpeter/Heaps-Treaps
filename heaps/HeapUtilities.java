@@ -68,14 +68,17 @@ public class HeapUtilities {
             return;
         }
         if(a[left(current)] > a[current]){
-            a[maxIndex] = a[left(current)];
+            maxIndex = left(current);
         }
-        if(a[right(current)] > a[maxIndex]){
-            a[maxIndex] = a[right(current)];
+        if(right(current) < n && a[right(current)] > a[maxIndex]){
+            maxIndex = right(current);
         }
-        swap(current,maxIndex);
-
+        if(current != maxIndex){
+            swap(a,current,maxIndex);
+            siftDown(a, maxIndex, n);
+        }
     }
+        
 
     /**
      * Heapify the array a in-place in linear time as a max-heap.
@@ -83,7 +86,10 @@ public class HeapUtilities {
      */
 
     protected static void heapify(double[] a){
-
+        int bound = a.length;
+        for(int i = bound/2-1;i >= 0;i--){
+            siftDown(a,i,bound);
+        }
     }
 
     /**
@@ -93,6 +99,12 @@ public class HeapUtilities {
      */
 
     protected static void heapSort(double[] a){
-
+        heapify(a);
+        int bound = a.length-1;
+        for(int i = 0;i < a.length - 1;i++){
+            swap(a, 0, bound);
+            siftDown(a, 0, bound);
+            bound--;
+        }
     }
 }
